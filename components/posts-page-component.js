@@ -1,5 +1,5 @@
-//Рендер главной страницы
-// import { formatDistance } from "date-fns";
+import { ru } from 'date-fns/locale';
+import { formatDistance } from "date-fns";
 import { addAndDisLike } from "./add-dis-like.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, user, getToken, goToPage, } from "../index.js";
@@ -40,7 +40,7 @@ export const renderPostsPageComponent = ({ appEl }) => {
           ${post.description}
         </p>
         <p class="post-date">
-         Назад
+        ${formatDistance(new Date(post.createdAt), new Date, { locale: ru })} Назад
         </p>
          </li><br>
     </ul>

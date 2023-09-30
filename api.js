@@ -1,5 +1,4 @@
-import {getToken} from "./index.js";
-
+import { getToken } from "./index.js";
 const personalKey = "egor-pavlakov";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
@@ -23,7 +22,7 @@ export function getPosts({ token }) {
     });
 }
 export function allPostsUser({ token, id }) {
-  return fetch(baseHost + "/api/v1/akoosta/instapro/user-posts/" + id.userId, {
+  return fetch(postsHost + "/user-posts/" + id.userId, {
     method: "GET",
     headers: {
       Authorization: token,
@@ -41,9 +40,21 @@ export function registerUser({ login, password, name, imageUrl }) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
     body: JSON.stringify({
-      login,
-      password,
-      name,
+      login: login
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+      password: password
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+      name: name
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
       imageUrl,
     }),
   }).then((response) => {
@@ -58,8 +69,16 @@ export function loginUser({ login, password }) {
   return fetch(baseHost + "/api/user/login", {
     method: "POST",
     body: JSON.stringify({
-      login,
-      password,
+      login: login
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+      password: password
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
     }),
   }).then((response) => {
     if (response.status === 400) {
@@ -81,22 +100,43 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
+export function uploadPost({ token, description, imageUrl }) {
+  return fetch(baseHost + "/api/v1/akoosta/instapro", {
+    method: "POST",
+    body: JSON.stringify({
+      description: description.replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;"),
+      imageUrl,
+    }),
+    headers: {
+      Authorization: token,
+    },
+  });
+}
 //Загрузка поста на сервер
-export function sendPost ({description, imageUrl}) {
+export function sendPost({ description, imageUrl }) {
   return fetch(postsHost, {
     method: "POST",
     body: JSON.stringify({
-      description: description,
-      imageUrl: imageUrl
+      description: description
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+      imageUrl: imageUrl,
     }),
     headers: {
-      Authorization: getToken() ,
-    }
-  }).then((response) => {
-    return response.json();
-  }).then(() => {
-    console.log("отправлено");
+      Authorization: getToken(),
+    },
   })
+    .then((response) => {
+      return response.json();
+    })
+    .then(() => {
+      console.log("отправлено");
+    });
 }
 export function addLike({ token, id }) {
   return fetch(baseHost + "/api/v1/akoosta/instapro/" + id + "/like", {
@@ -104,7 +144,7 @@ export function addLike({ token, id }) {
     headers: {
       Authorization: token,
     },
-  })
+  });
 }
 
 export function disLike({ token, id }) {
@@ -113,5 +153,5 @@ export function disLike({ token, id }) {
     headers: {
       Authorization: token,
     },
-  })
+  });
 }

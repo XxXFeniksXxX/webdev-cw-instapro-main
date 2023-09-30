@@ -10,6 +10,15 @@ export function getUserFromLocalStorage(user) {
   }
 }
 
+export function safeHtmlString(str) {
+  str = str
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+  return str;
+}
+
 export function removeUserFromLocalStorage(user) {
   window.localStorage.removeItem("user");
 }

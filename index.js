@@ -92,11 +92,12 @@ export function renderApp(data) {
   }
 
   if (page === USER_POSTS_PAGE) {
+    page = LOADING_PAGE;
     renderLoadingPageComponent({ appEl });
     return allPostsUser({ token: getToken(), id: data })
       .then((allPostsUser) => {
         posts = allPostsUser;
-        return renderAllPostsUser({ appEl });
+        renderAllPostsUser({ appEl });
       })
       .catch((error) => {
         alert("Произошла не предвиденная ошибка. Мы вернем вас на стартовую страницу");

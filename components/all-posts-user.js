@@ -1,12 +1,11 @@
-// import { ru } from 'date-fns/locale'
-// import { formatDistance } from "date-fns";
+import { ru } from "date-fns/locale";
+import { formatDistance } from "date-fns";
 import { posts, user, getToken, goToPage } from "../index.js";
-import { POSTS_PAGE } from "../routes.js";
 import { addAndDisLike } from "./add-dis-like.js";
 import { renderHeaderComponent } from "./header-component.js";
 
 export function renderAllPostsUser({ appEl }) {
-    appEl.innerHTML = `
+  appEl.innerHTML = `
     <div class="page-container">
         <div class="header-container"></div>
         <div class="posts-user-header">
@@ -60,7 +59,9 @@ export function renderAllPostsUser({ appEl }) {
             ${post.description}
         </p>
         <p class="post-date">
-         Назад
+        ${formatDistance(new Date(post.createdAt), new Date(), {
+          locale: ru,
+        })} Назад
         </p>
         ${
           user

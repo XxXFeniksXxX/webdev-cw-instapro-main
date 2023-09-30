@@ -48,7 +48,6 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     }
 
     document.getElementById("add-button").addEventListener("click", () => {
-
       sendPost({
         description: document.querySelector('.input').value,
         imageUrl: imageUrl,
